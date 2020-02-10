@@ -8,12 +8,13 @@ import unittest
 import maboss
 import math
 
-
-# In[3]:
-
-
 class MaBoSSTestCase(unittest.TestCase):
-    
+    """
+        MaBoSSTestCase 
+    """
+
+
+
     def __init__(self, sim, verbose = True):
         unittest.TestCase.__init__(self)
         self.Simulation = sim.copy()
@@ -192,7 +193,6 @@ class MaBoSSTestCase(unittest.TestCase):
     #take last nodes probability for every node
     def getFullLastNodesProbabilities(self, mutations, I_C):
         
-        #print('The simulation will be run with all the nodes external')
         
         output = list(self.New_sim.network.keys())
         
