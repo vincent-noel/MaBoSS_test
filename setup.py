@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(name='maboss_test',
-    version="1.0.0",
-    author="Nicolas Levy",
-    author_email="nicolaspierrelevy@gmail.com",
-    description="A python and jupyter api for the MaBoSS software",
+    version="1.0.0a1",
+    author="Lorenzo Pantolini",
+    author_email="lorenzopantolini@protonmail.com",
+    description="A testing library for MaBoSS models",
 	install_requires = ['maboss'],
 	packages=['maboss_test'],
 )
