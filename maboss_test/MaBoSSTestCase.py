@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
-
-
 import unittest
 import maboss
 import math
 
 class MaBoSSTestCase(unittest.TestCase):
     """
-        MaBoSSTestCase 
+        MaBoSSTestCase is the class used to verify model validity. 
+        It contains several methods to test various conditions 
+
     """
 
 
@@ -223,7 +222,19 @@ class MaBoSSTestCase(unittest.TestCase):
         return probability
     
     def assertStateProbability(self, mutations, I_C, state, direction, digits = 4):
+        """
+        Assert the evolution of the probability of given states after applying a mutation.
         
+        :param dict mutations: the mutations to apply to the model
+        :param dict I_C: initial conditions with which to simulate the model
+        :param state: The state to evaluate
+        :param direction: The direction of the evolution of the given state
+        
+        This function will simulate the wild type model, and the model with the given mutations. 
+        It will then compare simulation results, and check if the given state is evolving in the indicated direction. 
+        If not correct, this test will fail by raising an exception. 
+        
+        """
         if not self.checkNodes(state): return
         
         output = list(state.keys())
