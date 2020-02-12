@@ -189,48 +189,19 @@ class MaBoSSTestCase(unittest.TestCase):
     ##################################################################################################################
     ############################################ ASSERTION FUNCTIONS #################################################
     ##################################################################################################################
-    #take last nodes probability for every node
-    def getFullLastNodesProbabilities(self, mutations, I_C):
-        
-        
-        output = list(self.New_sim.network.keys())
-        
-        self.setOutput(output)
-        self.setInitialConditions(I_C)
-        self.mutateSimulation(mutations)
-        
-        self.New_result = self.New_sim.run()
-        
-        prob_table = self.New_result.get_last_nodes_probtraj()
-        
-        
-        probability = {}
     
-        for node in prob_table.columns:
-            p = prob_table[node].values[0]
-            p = self.truncate(p,10)
-            probability[node]=[1-p,p]
-            
-        
-        for node in self.New_sim.network.keys():
-            if node not in probability.keys():
-                probability[node]=[1,0]
-                
-                
-        self.resetSimulations()
-        
-        return probability
-    
-    def assertStateProbability(self, mutations, I_C, state, direction, digits = 4):
+
+    def assertStateProbabilityEvolution(self, mutations, I_C, state, direction, digits = 4):
         """
-        Assert the evolution of the probability of given states after applying a mutation.
+        Assert the evolution of the probability of a given state after applying a mutation.
         
-        :param dict mutations: the mutations to apply to the model
-        :param dict I_C: initial conditions with which to simulate the model
-        :param state: The state to evaluate
-        :param direction: The direction of the evolution of the given state
+        :param dict mutations: The mutations to apply to the model
+        :param I_C: Initial conditions with which to simulate the model, it may be a list or a dictionary
+        :param dict state: The state to evaluate
+        :param string direction: The direction of the evolution of the given state, it may be: 'increase', 'decrease' or 'stable'
+		:param int digits: The number of digits you want to keep during the comparison 
         
-        This function will simulate the wild type model, and the model with the given mutations. 
+        This function will simulate the wild type model and the model with the given mutations, both with the initial conditions I_C. 
         It will then compare simulation results, and check if the given state is evolving in the indicated direction. 
         If not correct, this test will fail by raising an exception. 
         
@@ -271,8 +242,22 @@ class MaBoSSTestCase(unittest.TestCase):
     
         return
     
-    
-    def assertStableStateProbability(self, mutations, I_C, state, direction, digits = 4):
+   
+    def assertStableStateProbabilityEvolution(self, mutations, I_C, state, direction, digits = 4):
+        """
+        Assert the evolution of the probability of a given stable state after applying a mutation.
+        
+        :param dict mutations: The mutations to apply to the model
+        :param I_C: Initial conditions with which to simulate the model, it may be a list or a dictionary
+        :param dict state: The state to evaluate
+        :param string direction: The direction of the evolution of the given state, it may be: 'increase', 'decrease' or 'stable'
+		:param int digits: The number of digits you want to keep during the comparison 
+        
+        This function will simulate the wild type model and the model with the given mutations, both with the initial conditions I_C. 
+        It will then compare simulation results, and check if the given stable state is evolving in the indicated direction. 
+        If not correct, this test will fail by raising an exception. 
+        
+        """
          
         if not self.checkNodes(state): return
         
@@ -309,8 +294,21 @@ class MaBoSSTestCase(unittest.TestCase):
     #NAME?????
     #maBoss only find ss with prob >0?
     #assert if given some condition (nodes dictionaries) other nodes has always the same values
-    def assertStableStates(self, mutations, condition, nodes_expected):
+	
+    def assertNodesDependencies(self, mutations, condition, nodes_expected):
+	    """
+        Assert that all states satisfying a condition on some given nodes also present the expected value for some other nodes.
         
+        :param dict mutations: The mutations to apply to the model
+        :param dict condition: A list of nodes with a specifc value assigned (0:inactive or 1:active) that a state has to respect in order to be selected
+        :param dict nodes_expected: A list of nodes with a specifc value assigned (0:inactive or 1:active) that all the selected states have to respect
+
+        This function will simulate the model with the given mutations.
+        It will then extract the stable states of the model in which the activity of the nodes in condition is satisfied.
+		It will then check that, for each selected state, the values of the nodes in nodes_expected is satisfied.
+        If not correct, this test will fail by raising an exception. 
+        
+        """    	    
         if not self.checkNodes(condition): return
         if not self.checkNodes(nodes_expected): return
         
@@ -351,9 +349,24 @@ class MaBoSSTestCase(unittest.TestCase):
         return
     
     
-    #IT IS CLEAR??
-    #compare the probability of reaching a state with prob (1 ask INCREASE, -1 DECREASE, 0 IS EQUAL)
-    def compareStableStateProbability(self, mutations, state, direction, reference_prob = 0, digits = 4):
+ 
+ 
+
+    def assertStableStateProbability(self, mutations, state, direction, reference_prob = 0, digits = 4):
+        """
+        Assert the evolution of the probability of a given stable state after applying a mutation.
+        
+        :param dict mutations: The mutations to apply to the model
+        :param dict state: The state to evaluate
+        :param string direction: The direction of the evolution of the given state, it may be: 'increase', 'decrease' or 'stable'
+		:param float reference_prob: The probability that will be compared with the probability to obtain "state"
+		:param int digits: The number of digits you want to keep during the comparison 
+        
+        This function will simulate the model with the given mutations.
+        It will then compare simulation results with reference_prob, and check if the given stable state is evolving in the indicated direction. 
+        If not correct, this test will fail by raising an exception. 
+        
+        """
          
         if not self.checkNodes(state): return    
         
@@ -383,7 +396,51 @@ class MaBoSSTestCase(unittest.TestCase):
     INCREASE = 'increase'
     DECREASE = 'decrease'
     CHANGE = 'stable'                      #actually it is: does not change  
+   
+
+
+
+	#take last nodes probability for every node
+    def getLastNodesProbabilities(self, mutations, I_C):
+	    """
+        Return a dictionary with the final activation probabily of every node in the model.
+        
+		:param dict mutations: The mutations to apply to the model
+        :param dict I_C: Initial conditions with which to simulate the model, it may be a list or a dictionary
+
+
+        This function will simulate the model with the given mutations and initial conditions.
+        It will then return the activation probability of each node in a form that can be used as initial condition for the assert functions.
+        
+        """    	 
+        
+        output = list(self.New_sim.network.keys())
+        
+        self.setOutput(output)
+        self.setInitialConditions(I_C)
+        self.mutateSimulation(mutations)
+        
+        self.New_result = self.New_sim.run()
+        
+        prob_table = self.New_result.get_last_nodes_probtraj()
+        
+        
+        probability = {}
     
+        for node in prob_table.columns:
+            p = prob_table[node].values[0]
+            p = self.truncate(p,10)
+            probability[node]=[1-p,p]
+            
+        
+        for node in self.New_sim.network.keys():
+            if node not in probability.keys():
+                probability[node]=[1,0]
+                
+                
+        self.resetSimulations()
+        
+        return probability 
 
 
 # In[ ]:
