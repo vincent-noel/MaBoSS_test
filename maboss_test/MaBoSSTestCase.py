@@ -296,7 +296,7 @@ class MaBoSSTestCase(unittest.TestCase):
     #assert if given some condition (nodes dictionaries) other nodes has always the same values
 	
     def assertNodesDependencies(self, mutations, condition, nodes_expected):
-	    """
+        """
         Assert that all states satisfying a condition on some given nodes also present the expected value for some other nodes.
         
         :param dict mutations: The mutations to apply to the model
@@ -308,7 +308,7 @@ class MaBoSSTestCase(unittest.TestCase):
 		It will then check that, for each selected state, the values of the nodes in nodes_expected is satisfied.
         If not correct, this test will fail by raising an exception. 
         
-        """    	    
+        """
         if not self.checkNodes(condition): return
         if not self.checkNodes(nodes_expected): return
         
@@ -402,7 +402,7 @@ class MaBoSSTestCase(unittest.TestCase):
 
 	#take last nodes probability for every node
     def getLastNodesProbabilities(self, mutations, I_C):
-	    """
+        """
         Return a dictionary with the final activation probabily of every node in the model.
         
 		:param dict mutations: The mutations to apply to the model
