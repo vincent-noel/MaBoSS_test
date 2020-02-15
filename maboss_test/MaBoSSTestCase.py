@@ -49,7 +49,7 @@ class MaBoSSTestCase(unittest.TestCase):
     def setInitialConditions(self, initial_conditions):
         
         if not initial_conditions and self.VERBOSE: 
-            print('Care, you did not changed any initial condition!')
+            print('Warning, you did not change any initial condition!')
             return
         
         if type(initial_conditions) is dict:
@@ -72,7 +72,7 @@ class MaBoSSTestCase(unittest.TestCase):
             for n in mutations:
                 (self.New_sim).mutate(n,mutations[n])
                 
-        elif self.VERBOSE: print('Care, you did not insert mutations!')
+        elif self.VERBOSE: print('Warning, you did not insert mutations!')
             
         
     def runBothSimulations(self):
