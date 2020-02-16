@@ -199,10 +199,10 @@ class MaBoSSTestCase(unittest.TestCase):
         :param I_C: Initial conditions with which to simulate the model, it may be a list or a dictionary
         :param dict state: The state to evaluate
         :param string direction: The direction of the evolution of the given state, it may be: 'increase', 'decrease' or 'stable'
-		:param int digits: The number of digits you want to keep during the comparison 
+        :param int digits: The number of digits you want to keep during the comparison 
         
         This function will simulate the wild type model and the model with the given mutations, both with the initial conditions I_C. 
-        It will then compare simulation results, and check if the given state is evolving in the indicated direction. 
+        It will then compare simulation results and check if the given state is evolving in the indicated direction. 
         If not correct, this test will fail by raising an exception. 
         
         """
@@ -251,10 +251,10 @@ class MaBoSSTestCase(unittest.TestCase):
         :param I_C: Initial conditions with which to simulate the model, it may be a list or a dictionary
         :param dict state: The state to evaluate
         :param string direction: The direction of the evolution of the given state, it may be: 'increase', 'decrease' or 'stable'
-		:param int digits: The number of digits you want to keep during the comparison 
+        :param int digits: The number of digits you want to keep during the comparison 
         
         This function will simulate the wild type model and the model with the given mutations, both with the initial conditions I_C. 
-        It will then compare simulation results, and check if the given stable state is evolving in the indicated direction. 
+        It will then compare simulation results and check if the given stable state is evolving in the indicated direction. 
         If not correct, this test will fail by raising an exception. 
         
         """
@@ -409,8 +409,7 @@ class MaBoSSTestCase(unittest.TestCase):
         :param dict I_C: Initial conditions with which to simulate the model, it may be a list or a dictionary
 
 
-        This function will simulate the model with the given mutations and initial conditions.
-        It will then return the activation probability of each node in a form that can be used as initial condition for the assert functions.
+        This function will simulate the model with the given mutations and initial conditions. It will then return the activation probability of each node in a form that can be used as initial condition for the assert functions.
         
         """    	 
         
