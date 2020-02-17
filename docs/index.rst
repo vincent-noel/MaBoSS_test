@@ -10,7 +10,7 @@ The library can be loaded by running the following line in Python::
 Tutorial
 --------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    Tutorial.ipynb
 
